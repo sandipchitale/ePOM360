@@ -1,0 +1,18 @@
+<form class="form-horizontal" role="form">
+	<div class="form-group">
+		<div class="col-sm-10">
+			<input type="text" class="form-control mono" id="system-command" placeholder="mvn help:system" readonly/>
+		</div>
+		<div class="col-sm-1">
+			<button ng-click="runSystem()" class="btn btn-default btn-block"><span class="glyphicon glyphicon-play-circle"></span></button>
+		</div>
+		<div class="col-sm-1">
+			<button ng-click="openThis('http://books.sonatype.com/mvnref-book/reference/resource-filtering-sect-properties.html#resource-filtering-sect-settings-properties')" class="btn btn-default btn-block"><span class="glyphicon glyphicon-info-sign"></span></button>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-12">
+			<textarea ng-keyup="$event.keyCode == 13 ? findText(true) : null" class="form-control mono" id="system" rows="16" readonly></textarea>
+		</div>
+	</div>
+</form>

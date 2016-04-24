@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="POM360App">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>POM 360</title>
+
+		<!-- Bootstrap -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/POM360.css" rel="stylesheet">
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	<body ng-controller="POM360Controller">
+		<nav style="-webkit-app-region: drag;" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div style="-webkit-app-region: no-drag;" class="navbar-header">
+				<a class="navbar-brand" href="#"><img style="vertical-align: middle" src="icons/POM360.png"/> POM 360</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+				<ul style="-webkit-app-region: no-drag;" class="nav navbar-nav">
+					<li>
+						<a ng-click="openThis('https://github.com/sandipchitale/POM360NW')" href="#"><span class="glyphicon glyphicon-home"></span></a>
+					</li>
+					<li>
+						<a ng-click="openThis('http://sandipchitale.blogspot.com/2014/04/pom-360.html')" href="#"><span class="glyphicon glyphicon-user"></span></a>
+					</li>
+				</ul>
+				<ul style="-webkit-app-region: no-drag;" class="nav navbar-nav pull-right">
+					<li>
+						<a ng-click="openThisRelativeToHomeDir('.m2/repository')" href="#"><span class="glyphicon glyphicon-hdd"></span></a>
+					</li>
+					<!--
+					<li>
+						<a href="#"><span class="glyphicon glyphicon-cloud"></span></a>
+					</li>
+					<li>
+						<a href="#"><span class="glyphicon glyphicon-book"></span></a>
+					</li>
+					-->
+					<li>
+						<a ng-click="openThis('http://search.maven.org/')" href="#"><span class="glyphicon glyphicon-align-justify"></span></a>
+					</li>
+					<li>
+						<a ng-click="debug()" href="#"><span class="glyphicon glyphicon-eye-open"></span></a>
+					</li>
+					<li>
+						<a ng-click="openThis('https://github.com/sandipchitale/POM360NW/issues')" href="#"><span class="glyphicon glyphicon-earphone"></span></a>
+					</li>
+					<li>
+						<a ng-click="openThis('presentation/MavenM2ETycho.pdf')" href="#"><span class="glyphicon glyphicon-comment"></span></a>
+					</li>
+					<li>
+						<a ng-click="openThis('http://books.sonatype.com/mvnref-book/reference/')" href="#"><span class="glyphicon glyphicon-info-sign"></span></a>
+					</li>
+					<li>
+						<a ng-click="exit()" href="#"><span class="glyphicon glyphicon-remove-circle"></span></a>
+					</li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</nav>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-12">
+					<ul class="nav nav-tabs">
+						<li ng-class="{active : atEffectivePomTab()}">
+							<a href="#/effective-pom">Effective POM</a>
+						</li>
+						<li ng-class="{active : atDependenciesTab()}">
+							<a href="#/dependencies">Dependencies</a>
+						</li>
+						<li ng-class="{active : atAgendaTab()}">
+							<a href="#/agenda">Agenda</a>
+						</li>
+						<li ng-class="{active : atProfilesTab()}">
+							<a href="#/profiles">Profiles</a>
+						</li>
+						<li ng-class="{active : atEffectiveSettingsTab()}">
+							<a href="#/effective-settings">Effective Settings</a>
+						</li>
+						<li ng-class="{active : atSystemTab()}">
+							<a href="#/system">System</a>
+						</li>
+						<li ng-class="{active : atRunTab()}">
+							<a href="#/cliargs">Run</a>
+						</li>
+						<li ng-class="{active : atDescribePluginTab()}">
+							<a href="#/describe-plugin">Describe Plugin</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="mvn-content" class="container-fluid">
+			<div class="row">
+				<div class="col-sm-12">
+					<br/>
+					<div ui-view></div>
+				</div>
+			</div>
+		</div>
+		<nav id="mvn-footer" class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+			<div class="container-fluid">
+				<br/>
+				<form class="form-horizontal" role="form">
+  					<div class="form-group">
+						<label for="search" class="col-sm-2 control-label">Find</label>
+						<div class="col-sm-1 ">
+							<div class="checkbox text-center">
+								<label>
+									<input ng-model="findSpecs.caseSensitive" type="checkbox" /> a != A
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-7">
+							<label class="sr-only" for="search">Find</label>
+							<input ng-model="findSpecs.text" ng-keyup="$event.keyCode == 13 ? findText(true) : null" type="search" class="form-control" id="find-text" placeholder="Find text...">
+						</div>
+						<div class="col-sm-1">
+							<button ng-click="findText()" type="button" class="btn btn-default btn-block">
+								<span class="glyphicon glyphicon-search"></span>
+							</button>
+						</div>
+						<div class="col-sm-1">
+							<button ng-click="toggleMvnDetails()" type="button" class="btn btn-default btn-block">
+								<span id="toggle-mvn-details" ng-class="{glyphicon: true, 'glyphicon-arrow-down': mvnDetailsShowing, 'glyphicon-arrow-up': (!mvnDetailsShowing)}"></span>
+							</button>
+						</div>
+					</div>
+					<div id="mvn-details">
+	  					<div class="form-group">
+							<label for="mvn" class="col-sm-2 control-label"><span ng-hide="!mvnHasError()" class="glyphicon glyphicon-exclamation-sign" title="Set maven executable"></span> mvn</label>
+							<div class="col-sm-1">
+								<button type="button" class="btn btn-default btn-block" ng-click="openThis('http://books.sonatype.com/mvnref-book/reference/installation.html')" >
+									<span class="glyphicon glyphicon-info-sign"></span>
+								</button>
+							</div>
+							<div class="col-sm-7">
+								<input type="text" class="form-control" id="mvn" placeholder="mvn command" ng-model="config.mvnCommand"></input>
+							</div>
+							<div class="col-sm-1">
+								<button ng-click="selectMvnCommand()" type="button" class="btn btn-default btn-block" id="selectmvn">
+									<span class="glyphicon glyphicon-floppy-open"></span>
+								</button>
+								<input style="display: none;" id="mvnCommandSelector" type="file" nwworkingdir="{{config.mvnCommandDir}}"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="options" class="col-sm-2 control-label">Options</label>
+							<div class="col-sm-1">
+								<button type="button" class="btn btn-default btn-block" ng-click="openThis('http://books.sonatype.com/mvnref-book/reference/running-sect-options.html')" >
+									<span class="glyphicon glyphicon-info-sign"></span>
+								</button>
+							</div>
+							<div class="col-sm-7">
+								<input type="text" class="form-control" id="options" placeholder="mvn options" ng-model="config.mvnOptions"></input>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="pom" class="col-sm-2 control-label"><span ng-hide="!pomHasError()" class="glyphicon glyphicon-exclamation-sign" title="Set pom location"></span> POM</label>
+							<div class="col-sm-1">
+								<button type="button" class="btn btn-default btn-block" ng-click="openThis('http://books.sonatype.com/mvnref-book/reference/pom-relationships-sect-pom.html')" >
+									<span class="glyphicon glyphicon-info-sign"></span>
+								</button>
+							</div>
+							<div class="col-sm-7">
+								<input type="text" class="form-control" id="pom" placeholder="{{config.defaultPomFile}}" ng-model="config.pomFile"></input>
+							</div>
+							<div class="col-sm-1">
+								<button ng-click="selectPomFile()" type="button" class="btn btn-default btn-block" id="selectPom">
+									<span class="glyphicon glyphicon-floppy-open"></span>
+								</button>
+								<input style="display: none;" id="pomFileSelector" type="file" accept=".xml" nwworkingdir="{{config.pomDir}}"/>
+							</div>
+							<div class="col-sm-1">
+								<button ng-click="editPomFile()" type="button" class="btn btn-default btn-block">
+									<span class="glyphicon glyphicon-pencil"></span>
+								</button>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="settings" class="col-sm-2 control-label">Settings</label>
+							<div class="col-sm-1">
+								<button type="button" class="btn btn-default btn-block" ng-click="openThis('http://books.sonatype.com/mvnref-book/reference/appendix-settings-sect-quick-overview.html')" >
+									<span class="glyphicon glyphicon-info-sign"></span>
+								</button>
+							</div>
+							<div class="col-sm-7">
+								<input type="text" class="form-control" id="settings" placeholder="{{config.defaultSettingsFile}}" ng-model="config.settingsFile"></input>
+							</div>
+							<div class="col-sm-1">
+								<button ng-click="selectSettingsFile()" type="button" class="btn btn-default btn-block" id="selectSettings">
+									<span class="glyphicon glyphicon-floppy-open"></span>
+								</button>
+								<input style="display: none;" id="settingsFileSelector" type="file" accept=".xml"/>
+							</div>
+							<div class="col-sm-1">
+								<button ng-click="editSettingsFile()" type="button" class="btn btn-default btn-block">
+									<span class="glyphicon glyphicon-pencil"></span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</nav>
+
+		<div class="modal fade" id="editor-dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title">Edit {{editor.title}}</h4>
+					</div>
+					<div class="modal-body">
+						<textarea ng-model="editor.content" class="form-control mono" rows="16" wrap="off"></textarea>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">
+							Close
+						</button>
+						<button ng-click="save()" type="button" class="btn btn-primary">
+							Save
+						</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+		<script>
+      window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.js');
+    </script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="node_modules/angular/angular.min.js"></script>
+    <script src="node_modules/angular-animate/angular-animate.js"></script>
+    <script src="node_modules/angular-ui-router/release/angular-ui-router.js"></script>
+		<script src="js/POM360.js"></script>
+	</body>
+</html>

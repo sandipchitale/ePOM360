@@ -1,0 +1,35 @@
+<form class="form-horizontal" role="form">
+	<div class="form-group">
+		<div class="col-sm-10">
+			<input type="text" class="form-control mono" id="agenda-command" placeholder="mvn help:describe -Dcmd=clean -Dcmd=deploy -Dcmd=site" readonly/>
+		</div>
+		<div class="col-sm-1">
+			<button ng-click="runAgenda()" class="btn btn-default btn-block"><span class="glyphicon glyphicon-play-circle"></span></button>
+		</div>
+		<div class="col-sm-1">
+			<button ng-click="openThis('http://books.sonatype.com/mvnref-book/reference/lifecycle-sect-structure.html')" class="btn btn-default btn-block"><span class="glyphicon glyphicon-info-sign"></span></button>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-4">
+			clean lifecycle
+		</div>
+		<div class="col-sm-4">
+			default lifecycle
+		</div>
+		<div class="col-sm-4">
+			site lifecycle
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-4">
+			<textarea ng-keyup="$event.keyCode == 13 ? findText(true) : null" class="form-control mono" id="clean-agenda" rows="14" wrap="off" readonly></textarea>
+		</div>
+		<div class="col-sm-4">
+			<textarea ng-keyup="$event.keyCode == 13 ? findText(true) : null" class="form-control mono" id="deploy-agenda" rows="14" wrap="off" readonly></textarea>
+		</div>
+		<div class="col-sm-4">
+			<textarea ng-keyup="$event.keyCode == 13 ? findText(true) : null" class="form-control mono" id="site-agenda" rows="14" wrap="off" readonly></textarea>
+		</div>
+	</div>
+</form>

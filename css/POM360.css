@@ -1,0 +1,13 @@
+body {
+	padding-top: 70px;
+}
+
+.mono {
+	font-family: Menlo, Monaco, Consolas, "Courier New", monospace !important;
+	resize: vertical;
+}
+
+.busy {
+	cursor: wait !important;
+}
+
