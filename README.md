@@ -1,22 +1,13 @@
-POM360NW
-========
+# ePOM360
 
-POM360 using node-webkit, AngularJS+UIRouter, Twitter Bootstrap
+POM360 using Elwectron framework, AngularJS+UIRouter, Twitter Bootstrap
 
-What is it?
-===========
+# What is it?
 
 Get a 360 view of your Maven POM. While doing it learn Maven using the context sensitive help and integrated PDF presentation.
 
-How to run?
-===========
+## Blog
 
-* Download node-webkit
-* Download POM360NW.nw
-* Run it
+[ePOM360](http://sandipchitale.blogspot.com/2016/04/electron-based-pom360.html)
 
-```bash
 
-nw POM236NW.nw
-
-```
