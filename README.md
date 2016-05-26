@@ -1,6 +1,6 @@
 # ePOM360
 
-POM360 using Elwectron framework, AngularJS+UIRouter, Twitter Bootstrap
+POM360 using Electron framework, AngularJS+UIRouter, Twitter Bootstrap
 
 # What is it?
 
